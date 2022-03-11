@@ -1,0 +1,16 @@
+.popup__form {
+  margin: 30px auto 0;
+  max-width: 358px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 30px;
+  border: 0;
+}
+
+@media screen and (max-width: 640px) {
+  .popup__form {
+    max-width: 238px;
+    margin: 75px auto 0;
+  }
+}
