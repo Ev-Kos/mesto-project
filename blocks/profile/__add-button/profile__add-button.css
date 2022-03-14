@@ -5,11 +5,12 @@
   background-image: url(../../../image/add-button.svg);
   background-position: center;
   background-color: transparent;
+  background-size: 22px 22px;
   background-repeat: no-repeat;
   border: 2px solid #FFF;
   align-self: center;
-  margin: 0 0 0 254px;
-  padding: 0;
+  margin: 0 0 0 245px;
+  border-radius: 2px;
 }
 
 .profile__add-button:hover {
@@ -27,5 +28,6 @@
   .profile__add-button {
     max-width: 282px;
     margin: 33px 0 0 0;
+    background-size: 16px 16px;
   }
 }
