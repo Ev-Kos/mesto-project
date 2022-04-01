@@ -4,7 +4,7 @@
 
 Это страница для размещения фотографий. С макетом проета можно ознакомиться по [ссылке](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1).
 Проект выполнен в адаптивной вестке для разрешений от 320 до 1280 пикселей.
-[Ссылка проекта на GitHub](https://github.com/Ev-Kos/mesto-project.git).
+[Ссылка проекта на GitHub](https://ev-kos.github.io/mesto-project/index.html).
 
 **Используемые технологии**
 
