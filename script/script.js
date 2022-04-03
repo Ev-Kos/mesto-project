@@ -89,7 +89,7 @@ initialCards.forEach(function(item) {                                           
   element.querySelector('.element__image').alt = item.altText;
   element.querySelector('.element__title').textContent = item.name;
   elements.append(element);
-})
+});
 
 const popupPlaceName = document.querySelector('#popupPlaceName');                     //поле ввода имени нового места
 const popupPlaceUrl = document.querySelector('#popupPlaceUrl');                       //поле ввода ссылки на новое место
@@ -110,7 +110,7 @@ function formSubmitPlace (evt) {                                                
   likeCard(likeButton);
 
   const allImage = element.querySelector('.element__image');
-  zoomImage(allImage)
+  zoomImage(allImage);
 }
 
 popupFormPlace.addEventListener('submit', formSubmitPlace);
@@ -119,37 +119,37 @@ const deleteButtons = document.querySelectorAll('.element__remove-button');     
 
 deleteButtons.forEach(function(button) {                                               //удаление карточек
   delCard(button);
-})
+});
 
 function delCard(button) {
   button.addEventListener('click', function() {
     const element = button.closest('.element');
     element.remove();
-  })
+  });
 }
 
 const likeButtons = document.querySelectorAll('.element__like-button');                //кнопки лайков
 
 likeButtons.forEach(function(button) {                                                 //лайки карточек
   likeCard(button);
-})
+});
 
 function likeCard(button) {
   button.addEventListener('click', function() {
     button.classList.toggle('element__like-button_active');
-  })
+  });
 }
 
-const allImages = document.querySelectorAll('.element__image')
+const allImages = document.querySelectorAll('.element__image');
 
 function zoomImage(image) {
   image.addEventListener('click', function() {
-    popups[2].classList.add('popup_opened')
+    popups[2].classList.add('popup_opened');
     popups[2].querySelector('.popup__image').src = image.src;
     popups[2].querySelector('.popup__caption').textContent = image.alt;
-  })
+  });
 }
 
 allImages.forEach(function(image) {
-  zoomImage(image)
-})
+  zoomImage(image);
+});
