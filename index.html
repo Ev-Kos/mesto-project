@@ -23,48 +23,16 @@
       <button type="button" class="profile__add-button"></button>
     </section>
     <section class="elements">
-      <div class="element">
-        <img class="element__image" src="./image/karachaevsk.jpg" alt="Фотография Сентинского храма в Карачаевске.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Карачаевск</h2>
-          <button type="button" class="element__button element__button_active"></button>
+      <template id="cardsTemplate">
+        <div class="element">
+          <img class="element__image" src=# alt=#>
+          <div class="element__conteiner">
+            <h2 class="element__title"></h2>
+            <button type="button" class="element__like-button"></button>
+          </div>
+          <button type="button" class="element__remove-button"></button>
         </div>
-      </div>
-      <div class="element">
-        <img class="element__image" src="./image/elbrus.jpg" alt="Фотография горы Эльбрус.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Гора Эльбрус</h2>
-          <button type="button" class="element__button"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img class="element__image" src="./image/dombay.jpg" alt="Фотография Домбая.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Домбай</h2>
-          <button type="button" class="element__button element__button_active"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img class="element__image" src="./image/elbrus.jpg" alt="Фотография горы Эльбрус.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Гора Эльбрус</h2>
-          <button type="button" class="element__button"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img class="element__image" src="./image/dombay.jpg" alt="Фотография Домбая.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Домбай</h2>
-          <button type="button" class="element__button element__button_active"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img class="element__image" src="./image/karachaevsk.jpg" alt="Фотография Сентинского храма в Карачаевске.">
-        <div class="element__conteiner">
-          <h2 class="element__title">Карачаево-Ч...</h2>
-          <button type="button" class="element__button element__button_active"></button>
-        </div>
-      </div>
+    </template>
     </section>
   </main>
   <footer class="footer">
@@ -74,7 +42,7 @@
     <div class="popup__container">
       <button type="button" class="popup__close-button" id="closeProfile"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="popup-form">
+      <form class="popup__form" name="popup-form" id="popupFormProfile">
           <input type="text" name="userName" class="popup__input" placeholder="Имя" id="popupUserName">
           <input type="text" name="userProfession" class="popup__input" placeholder="О себе" id="popupUserProfession">
           <button type="submit" class="popup__submit-button" id="submitProfile">Сохранить</button>
@@ -85,11 +53,20 @@
     <div class="popup__container">
       <button type="button" class="popup__close-button" id="closePlace"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form" name="popup-form">
-          <input type="text" name="placeName" class="popup__input" placeholder="Название" id="placeName">
-          <input type="text" name="placeUrl" class="popup__input" placeholder="Ссылка на картинку" id="placeUrl">
+      <form class="popup__form" name="popup-form" id="popupFormPlace">
+          <input type="text" name="placeName" class="popup__input" placeholder="Название" id="popupPlaceName">
+          <input type="text" name="placeUrl" class="popup__input" placeholder="Ссылка на картинку" id="popupPlaceUrl">
           <button type="submit" class="popup__submit-button" id="submitPlace">Сохранить</button>
       </form>
+    </div>
+  </section>
+  <section class="popup popup_zoom-image">
+    <div class="popup__zoom-container">
+      <button type="button" class="popup__close-button" id="closeZoom"></button>
+      <figure class="popup__figure">
+        <img class="popup__image" src="#" alt="#">
+        <figcaption class="popup__caption"></figcaption>
+      </figure>
     </div>
   </section>
   <script src="./script/script.js"></script>
