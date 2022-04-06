@@ -85,9 +85,10 @@ formElementProfile.addEventListener('submit', formSubmitProfile);
 const cardsTemplate = document.querySelector('#cardsTemplate').content;               //получение содержимого массива
 const elements = document.querySelector('.elements');                                 //секция расположения карточек
 
-function createCard(name, link) {                                                     //функция добавления карточек
+function createCard(name, link, alt=null) {                                           //функция добавления карточек
   const card = cardsTemplate.querySelector('.element').cloneNode(true);
   card.querySelector('.element__image').src = link;
+  card.querySelector('.element__image').alt = alt;
   card.querySelector('.element__title').textContent = name;
 
   const buttonDelete = card.querySelector('.element__remove-button');                 //удаление карточек
@@ -107,7 +108,7 @@ function createCard(name, link) {                                               
   image.addEventListener('click', function() {
     openPopup(popupZoom);
     popupZoom.querySelector('.popup__image').src = link;
-    popupZoom.querySelector('.popup__image').alt = image.alt;
+    popupZoom.querySelector('.popup__image').alt = alt;
     popupZoom.querySelector('.popup__caption').textContent = name;
   });
 
@@ -115,8 +116,7 @@ function createCard(name, link) {                                               
 }
 
 initialCards.forEach(function(item) {
-  const card = createCard(item.name, item.link);
-  card.alt = item.altText;
+  const card = createCard(item.name, item.link, item.altText);
   elements.append(card);
 });
 
