@@ -11,11 +11,13 @@ const profileClose = document.querySelector('#closeProfile');
 const placeClose = document.querySelector('#closePlace');
 const zoomClose = document.querySelector('#closeZoom');
 const formElementProfile = document.querySelector('#popupFormProfile');
+const inputElementProfile = formElementProfile.querySelectorAll('.popup__input');
 const cardsTemplate = document.querySelector('#cardsTemplate').content;
 const elements = document.querySelector('.elements');
 const popupPlaceName = document.querySelector('#popupPlaceName');
 const popupPlaceUrl = document.querySelector('#popupPlaceUrl');
 const popupFormPlace = document.querySelector('#popupFormPlace');
+const popups = document.querySelectorAll('.popup');
 
 export {
   editButton,
@@ -31,9 +33,11 @@ export {
   placeClose,
   zoomClose,
   formElementProfile,
+  inputElementProfile,
   cardsTemplate,
   elements,
   popupPlaceName,
   popupPlaceUrl,
-  popupFormPlace
+  popupFormPlace,
+  popups
 }

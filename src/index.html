@@ -37,28 +37,43 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
+
   <section class="popup" id="popupProfile">
     <div class="popup__container">
       <button type="button" class="popup__close-button" id="closeProfile"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="popupFormProfile" id="popupFormProfile">
-          <input type="text" name="userName" class="popup__input" placeholder="Имя" id="popupUserName">
-          <input type="text" name="userProfession" class="popup__input" placeholder="О себе" id="popupUserProfession">
+      <form class="popup__form" name="popupFormProfile" id="popupFormProfile" novalidate>
+          <div class="popup__field">
+            <input type="text" name="userName" class="popup__input" placeholder="Имя" id="popupUserName" minlength="2" maxlength="40" required>
+            <span class="popup__input-error" id="popupUserName-error"></span>
+          </div>
+          <div class="popup__field">
+            <input type="text" name="userProfession" class="popup__input" placeholder="О себе" id="popupUserProfession" minlength="2" maxlength="200" required>
+            <span class="popup__input-error" id="popupUserProfession-error"></span>
+          </div>
           <button type="submit" class="popup__submit-button" id="submitProfile">Сохранить</button>
       </form>
     </div>
   </section>
+
   <section class="popup" id="popupPlace">
     <div class="popup__container">
       <button type="button" class="popup__close-button" id="closePlace"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form" name="popupFormPlace" id="popupFormPlace">
-          <input type="text" name="placeName" class="popup__input" placeholder="Название" id="popupPlaceName">
-          <input type="text" name="placeUrl" class="popup__input" placeholder="Ссылка на картинку" id="popupPlaceUrl">
-          <button type="submit" class="popup__submit-button" id="submitPlace">Сохранить</button>
+      <form class="popup__form" name="popupFormPlace" id="popupFormPlace" novalidate>
+        <div class="popup__field">
+          <input type="text" name="placeName" class="popup__input" placeholder="Название" id="popupPlaceName" minlength="2" maxlength="30" required>
+          <span class="popup__input-error" id="popupPlaceName-error"></span>
+        </div>
+        <div class="popup__field">
+          <input type="url" name="placeUrl" class="popup__input" placeholder="Ссылка на картинку" id="popupPlaceUrl" required>
+          <span class="popup__input-error" id="popupPlaceUrl-error"></span>
+        </div>
+        <button type="submit" class="popup__submit-button" id="submitPlace">Сохранить</button>
       </form>
     </div>
   </section>
+
   <section class="popup popup_zoom-image" id="popupZoom">
     <div class="popup__zoom-container">
       <button type="button" class="popup__close-button" id="closeZoom"></button>

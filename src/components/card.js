@@ -1,6 +1,6 @@
 import {initialCards} from './initialCards';
 import {cardsTemplate, elements,  popupZoom} from './constants';
-import {openPopup} from './popups';
+import {openPopup} from './modal';
 
 //функция добавления карточек
 function createCard(name, link, alt=null) {
