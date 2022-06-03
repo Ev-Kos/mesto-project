@@ -2,7 +2,7 @@ import './index.css';
 import '../components/modal';
 import '../components/utils';
 import '../components/card';
-import enableValidation from '../components/validate';
+import {enableValidation} from '../components/validate';
 
 enableValidation({
   formSelector: '.popup__form',

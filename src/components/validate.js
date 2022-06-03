@@ -59,9 +59,15 @@ function toggleButtonState(inputArr, buttonElement, inactiveButtonClass)  {
 };
 
 //Обработчик каждой формы
-export default function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) {
+function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) {
   const formArr = Array.from(document.querySelectorAll(formSelector));
-  formArr.forEach(formElement => {
+
+  formArr.forEach(function(formElement) {
+    formElement.addEventListener('submit', function(evt) {
+      evt.preventDefault();
+    });
     setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
   });
 }
+
+export {enableValidation}
