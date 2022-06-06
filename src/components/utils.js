@@ -4,17 +4,13 @@ import { editButton,
   userProfession,
   popupUserName,
   popupUserProfession,
-  profileClose,
   formElementProfile,
   popupPlace,
   addButton,
-  placeClose,
   popupPlaceName,
   popupPlaceUrl,
   popupFormPlace,
-  elements,
-  popupZoom,
-  zoomClose,
+  elements
 } from './constants';
 
 import {openPopup, closePopup} from './modal';
@@ -27,11 +23,8 @@ editButton.addEventListener('click', function () {
   popupUserProfession.value = userProfession.textContent;
 });
 
-//функция закрытия попапа профайла
-profileClose.addEventListener('click', () => closePopup(popupProfile));
-
 //функция сохранения и закрытия попапа профайла
-function formSubmitProfile (evt) {
+function handleProfileFormSubmit (evt) {
   evt.preventDefault();
 
   userName.textContent = popupUserName.value;
@@ -40,15 +33,13 @@ function formSubmitProfile (evt) {
   closePopup(popupProfile);
 }
 
-formElementProfile.addEventListener('submit', formSubmitProfile);
+formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 
-//открытие и закрытие попапа "новое место"
+//открытие попапа "новое место"
 addButton.addEventListener('click', () => openPopup(popupPlace));
 
-placeClose.addEventListener('click', () => closePopup(popupPlace));
-
 //функция сохранения и закрытия "новое место"
-function formSubmitPlace (evt) {
+function handlePlaceFormSubmit (evt) {
   evt.preventDefault();
 
   const element = createCard(popupPlaceName.value, popupPlaceUrl.value);
@@ -57,11 +48,11 @@ function formSubmitPlace (evt) {
   closePopup(popupPlace);
 
   evt.target.reset();
+
+  const buttonClose = popupFormPlace.querySelector('.popup__submit-button');
+  buttonClose.classList.add('popup__submit-button_inactive');
+  buttonClose.setAttribute('disabled','');
 }
 
-popupFormPlace.addEventListener('submit', formSubmitPlace);
-
-//функция закрытия попапов
-
-zoomClose.addEventListener('click', () => closePopup(popupZoom));
+popupFormPlace.addEventListener('submit', handlePlaceFormSubmit);
 
