@@ -1,12 +1,13 @@
 import {initialCards} from './initialCards';
-import {cardsTemplate, elements,  popupZoom} from './constants';
+import {cardsTemplate, elements,  popupZoom, popupZoomImage} from './constants';
 import {openPopup} from './modal';
 
 //функция добавления карточек
 function createCard(name, link, alt=null) {
   const card = cardsTemplate.querySelector('.element').cloneNode(true);
-  card.querySelector('.element__image').src = link;
-  card.querySelector('.element__image').alt = alt;
+  const cardImage = card.querySelector('.element__image');
+  cardImage.src = link;
+  cardImage.alt = alt;
   card.querySelector('.element__title').textContent = name;
 
   //удаление карточек
@@ -25,11 +26,10 @@ function createCard(name, link, alt=null) {
   });
 
   //открытие картинки
-  const image = card.querySelector('.element__image');
-  image.addEventListener('click', function() {
+  cardImage.addEventListener('click', function() {
     openPopup(popupZoom);
-    popupZoom.querySelector('.popup__image').src = link;
-    popupZoom.querySelector('.popup__image').alt = alt;
+    popupZoomImage.src = link;
+    popupZoomImage.alt = alt;
     popupZoom.querySelector('.popup__caption').textContent = name;
   });
 

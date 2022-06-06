@@ -3,26 +3,34 @@ import {popups} from './constants';
 //функция открытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' && popup.classList.contains('popup_opened')) {
-      popup.classList.remove('popup_opened');
-    }
-  })
+  document.addEventListener('keydown', closeByEscape);
 }
 
 //функция закрытия попапов
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEscape);
 }
 
-//закрытие по клику на оверлэй
+//закрытие попапов на esc
+
+function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
+
+//закрытие по клику на оверлэй и крестик
 
 popups.forEach(function(popup) {
-   popup.addEventListener('click', function(evt) {
+   popup.addEventListener('mousedown', function(evt) {
      if (evt.target.classList.contains('popup')) {
        closePopup(popup);
      }
+     if (evt.target.classList.contains('popup__close-button')) {
+      closePopup(popup);
+    }
    })
  });
 
