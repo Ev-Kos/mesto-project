@@ -118,7 +118,25 @@ function addNewCard(card, user) {
   })
 }
 
-export {getUserInfo, getCards, setUserInfo, addNewCard}
+//Удаление карточки
+
+function deleteCard(id) {
+  fetch(`${config.baseUrl}/cards/${id}`, {
+  method: 'DELETE',
+  headers: config.headers
+  })
+  .then((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+
+export {getUserInfo, getCards, setUserInfo, addNewCard, deleteCard}
 
 
 

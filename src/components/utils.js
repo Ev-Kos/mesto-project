@@ -10,12 +10,13 @@ import { editButton,
   popupPlaceName,
   popupPlaceUrl,
   popupFormPlace,
-  elements
+  buttonConsent,
+  popupConsent
 } from './constants';
 
 import {openPopup, closePopup} from './modal';
-import {createCard} from './card';
-import {setUserInfo, addNewCard} from './api';
+import {cardForDel} from './card';
+import {setUserInfo, addNewCard, deleteCard} from './api';
 
 //функция открытия попапа профайла
 editButton.addEventListener('click', function () {
@@ -44,8 +45,8 @@ formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 //открытие попапа "новое место"
 addButton.addEventListener('click', () => openPopup(popupPlace));
 
-function inactiveBtnSubmit() {
-  const buttonClose = popupFormPlace.querySelector('.popup__submit-button');
+function inactiveBtnSubmit(popup) {
+  const buttonClose = popup.querySelector('.popup__submit-button');
   buttonClose.classList.add('popup__submit-button_inactive');
   buttonClose.setAttribute('disabled','');
 }
@@ -74,5 +75,14 @@ function renderLoading(isLoading) {
     buttonSubmit.textContent = 'Сохранить'
   }
 }
+
+//функция закрытия попапа "вы уверены" и удаление карточки
+
+buttonConsent.addEventListener('click', function() {
+  deleteCard(cardForDel);
+  closePopup(popupConsent);
+  const chosenCard = document.querySelector(`#delete`);
+  chosenCard.remove();
+})
 
 export {renderLoading, inactiveBtnSubmit}

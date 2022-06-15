@@ -1,10 +1,12 @@
 import {initialCards} from './initialCards';
-import {cardsTemplate, elements,  popupZoom, popupZoomImage} from './constants';
+import {cardsTemplate, elements,  popupZoom, popupZoomImage, popupConsent} from './constants';
 import {openPopup} from './modal';
+
+let cardForDel = '';
 
 //функция добавления карточек
 //function createCard(name, link, alt=null)
-function createCard(cards = {}, alt=null) {
+function createCard(cards = {}, userInfo) {
   const card = cardsTemplate.querySelector('.element').cloneNode(true);
   const cardImage = card.querySelector('.element__image');
   cardImage.src = cards.link;
@@ -14,10 +16,16 @@ function createCard(cards = {}, alt=null) {
   //удаление карточек
   const buttonDelete = card.querySelector('.element__remove-button');
 
-  buttonDelete.addEventListener('click', function() {
-    const element = buttonDelete.closest('.element');
-    element.remove();
-  });
+  if (cards.owner._id === userInfo._id) {
+    buttonDelete.addEventListener('click', function() {
+      openPopup(popupConsent);
+      cardForDel = cards._id;
+      card.id = `delete`;
+    });
+  } else {
+    buttonDelete.remove();
+  }
+
 
   //лайки карточек
   const buttonLike = card.querySelector('.element__like-button');
@@ -25,6 +33,9 @@ function createCard(cards = {}, alt=null) {
   buttonLike.addEventListener('click', function() {
     buttonLike.classList.toggle('element__like-button_active');
   });
+
+  const likeCount = card.querySelector('.element__likes-count');
+  likeCount.textContent = cards.likes.length;
 
   //открытие картинки
   cardImage.addEventListener('click', function() {
@@ -41,6 +52,6 @@ function showCard(card) {
   elements.append(card);
 };
 
-export {createCard, showCard}
+export {createCard, showCard, cardForDel}
 
 
