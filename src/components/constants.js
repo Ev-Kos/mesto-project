@@ -4,6 +4,7 @@ const popupPlace = document.querySelector('#popupPlace');
 const popupZoom = document.querySelector('#popupZoom');
 const userName = document.querySelector('.profile__name');
 const userProfession = document.querySelector('.profile__profession');
+const userAvatar = document.querySelector('.profile__avatar');
 const popupUserName = document.querySelector('#popupUserName');
 const popupUserProfession = document.querySelector('#popupUserProfession');
 const addButton = document.querySelector('.profile__add-button');
@@ -25,6 +26,7 @@ export {
   userProfession,
   popupUserName,
   popupUserProfession,
+  userAvatar,
   addButton,
   formElementProfile,
   cardsTemplate,

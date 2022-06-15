@@ -15,6 +15,7 @@ import { editButton,
 
 import {openPopup, closePopup} from './modal';
 import {createCard} from './card';
+import {setUserInfo, addNewCard} from './api';
 
 //функция открытия попапа профайла
 editButton.addEventListener('click', function () {
@@ -23,12 +24,17 @@ editButton.addEventListener('click', function () {
   popupUserProfession.value = userProfession.textContent;
 });
 
+function updateUsefInfo(name, about) {
+  userName.textContent = name;
+  userProfession.textContent = about;
+};
+
 //функция сохранения и закрытия попапа профайла
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
 
-  userName.textContent = popupUserName.value;
-  userProfession.textContent = popupUserProfession.value;
+  updateUsefInfo(popupUserName.value, popupUserProfession.value);
+  setUserInfo(popupUserName.value, popupUserProfession.value);
 
   closePopup(popupProfile);
 }
@@ -38,21 +44,35 @@ formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 //открытие попапа "новое место"
 addButton.addEventListener('click', () => openPopup(popupPlace));
 
-//функция сохранения и закрытия "новое место"
-function handlePlaceFormSubmit (evt) {
-  evt.preventDefault();
-
-  const element = createCard(popupPlaceName.value, popupPlaceUrl.value);
-  elements.prepend(element);
-
-  closePopup(popupPlace);
-
-  evt.target.reset();
-
+function inactiveBtnSubmit() {
   const buttonClose = popupFormPlace.querySelector('.popup__submit-button');
   buttonClose.classList.add('popup__submit-button_inactive');
   buttonClose.setAttribute('disabled','');
 }
 
+//функция сохранения и закрытия "новое место"
+function handlePlaceFormSubmit (user) {
+  const card = {
+    name: popupPlaceName.value,
+    link: popupPlaceUrl.value
+  }
+  addNewCard(card, user);
+  popupFormPlace.reset();
+}
+
 popupFormPlace.addEventListener('submit', handlePlaceFormSubmit);
 
+//уведомление пользователя о процессе загрузки
+
+function renderLoading(isLoading) {
+  const buttonSubmit = document.querySelector('.popup_opened').querySelector('.popup__submit-button');
+  if (isLoading) {
+    buttonSubmit.textContent = 'Сохранение...'
+  } else if (buttonSubmit.getElementsById(popupPlace)) {
+    buttonSubmit.textContent = 'Создать'
+  } else {
+    buttonSubmit.textContent = 'Сохранить'
+  }
+}
+
+export {renderLoading, inactiveBtnSubmit}

@@ -3,12 +3,13 @@ import {cardsTemplate, elements,  popupZoom, popupZoomImage} from './constants';
 import {openPopup} from './modal';
 
 //функция добавления карточек
-function createCard(name, link, alt=null) {
+//function createCard(name, link, alt=null)
+function createCard(cards = {}, alt=null) {
   const card = cardsTemplate.querySelector('.element').cloneNode(true);
   const cardImage = card.querySelector('.element__image');
-  cardImage.src = link;
-  cardImage.alt = alt;
-  card.querySelector('.element__title').textContent = name;
+  cardImage.src = cards.link;
+  cardImage.alt = cards.name;
+  card.querySelector('.element__title').textContent = cards.name;
 
   //удаление карточек
   const buttonDelete = card.querySelector('.element__remove-button');
@@ -36,11 +37,10 @@ function createCard(name, link, alt=null) {
   return card;
 }
 
-initialCards.forEach(function(item) {
-  const card = createCard(item.name, item.link, item.altText);
+function showCard(card) {
   elements.append(card);
-});
+};
 
-export {createCard}
+export {createCard, showCard}
 
 
