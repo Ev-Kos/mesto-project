@@ -2,7 +2,7 @@ const editButton = document.querySelector('.profile__edit-button');
 const popupProfile = document.querySelector('#popupProfile');
 const popupPlace = document.querySelector('#popupPlace');
 const popupZoom = document.querySelector('#popupZoom');
-const popupConsent = document.querySelector('#popup_consent');
+const popupConsent = document.querySelector('#popupConsent');
 const buttonConsent = popupConsent.querySelector('.popup__submit-button');
 const userName = document.querySelector('.profile__name');
 const userProfession = document.querySelector('.profile__profession');
@@ -18,6 +18,11 @@ const popupPlaceUrl = document.querySelector('#popupPlaceUrl');
 const popupFormPlace = document.querySelector('#popupFormPlace');
 const popups = document.querySelectorAll('.popup');
 const popupZoomImage = popupZoom.querySelector('.popup__image');
+const popupNewAvatar = document.querySelector('#popupNewAvatar');
+const buttonAvatarSubmit = popupNewAvatar.querySelector('.popup__submit-button');
+const buttonAvatarEdit = document.querySelector('.profile__avatar-edit-button');
+const popupFormAvatar = document.querySelector('#popupFormNewAvatar');
+const popupAvatarUrl = document.querySelector('#popupAvatarUrl');
 
 export {
   editButton,
@@ -39,5 +44,10 @@ export {
   popups,
   popupZoomImage,
   popupConsent,
-  buttonConsent
+  buttonConsent,
+  popupNewAvatar,
+  buttonAvatarSubmit,
+  buttonAvatarEdit,
+  popupAvatarUrl,
+  popupFormAvatar
 }

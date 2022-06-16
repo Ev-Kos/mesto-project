@@ -17,7 +17,10 @@ getUserInfo()
     userProfession.textContent = info.about;
     userAvatar.src = info.avatar;
     return userInfo = info
-  });
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 
   getCards()
   .then((cards) => {
@@ -26,12 +29,14 @@ getUserInfo()
         showCard(createCard(card, userInfo));
       })
     } else {
-      let text = document.createElement('p');
-      text.textContent = 'Карточки отсутствуют';
+      let textErr = document.createElement('p');
+      textErr.textContent = 'Извините, фотографии отсутствуют';
       document.querySelector('.elements').before(text);
     }
   })
-
+  .catch((err) => {
+    console.log(err);
+  })
 
 
 enableValidation({

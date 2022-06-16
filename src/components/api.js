@@ -1,5 +1,5 @@
 import {renderLoading, inactiveBtnSubmit} from './utils';
-import {popupProfile, popupPlace} from './constants';
+import {popupProfile, popupPlace, userAvatar, popupNewAvatar} from './constants';
 import {closePopup} from './modal';
 import {showCard, createCard} from './card';
 
@@ -17,7 +17,7 @@ function getUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-  .then(res => {
+  .then((res) => {
     if (res.ok) {
       return res.json()
     }
@@ -176,7 +176,41 @@ function deleteLike(cardId, likeCount) {
   })
 }
 
-export {getUserInfo, getCards, setUserInfo, addNewCard, deleteCard, setLike, deleteLike}
+//Обновление аватара пользователя
+
+function newAvatar(link) {
+  fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: link
+    })
+  })
+  .then((res) => {
+    if (res.ok) {
+      renderLoading(true);
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+  .then((result) => {
+    userAvatar.src = result.avatar;
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    renderLoading(false);
+  })
+  .finally(() => {
+    closePopup(popupNewAvatar)
+  })
+  .finally(() => {
+    inactiveBtnSubmit(popupNewAvatar)
+  })
+}
+
+export {getUserInfo, getCards, setUserInfo, addNewCard, deleteCard, setLike, deleteLike, newAvatar}
 
 
 

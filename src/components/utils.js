@@ -11,12 +11,16 @@ import { editButton,
   popupPlaceUrl,
   popupFormPlace,
   buttonConsent,
-  popupConsent
+  popupConsent,
+  buttonAvatarEdit,
+  popupNewAvatar,
+  popupFormAvatar,
+  popupAvatarUrl
 } from './constants';
 
 import {openPopup, closePopup} from './modal';
 import {cardForDel} from './card';
-import {setUserInfo, addNewCard, deleteCard} from './api';
+import {setUserInfo, addNewCard, deleteCard, newAvatar} from './api';
 
 //функция открытия попапа профайла
 editButton.addEventListener('click', function () {
@@ -69,7 +73,7 @@ function renderLoading(isLoading) {
   const buttonSubmit = document.querySelector('.popup_opened').querySelector('.popup__submit-button');
   if (isLoading) {
     buttonSubmit.textContent = 'Сохранение...'
-  } else if (buttonSubmit.getElementsById(popupPlace)) {
+  } else if (buttonSubmit.closest('.popup__place')) {
     buttonSubmit.textContent = 'Создать'
   } else {
     buttonSubmit.textContent = 'Сохранить'
@@ -79,7 +83,12 @@ function renderLoading(isLoading) {
 //функция закрытия попапа "вы уверены" и удаление карточки
 
 buttonConsent.addEventListener('click', function() {
-  deleteCard(cardForDel);
+  deleteCard(cardForDel)
+
+  .catch((err) => {
+    console.log(err);
+  })
+
   closePopup(popupConsent);
   const chosenCard = document.querySelector(`#delete`);
   chosenCard.remove();
@@ -94,5 +103,19 @@ function setActiveLike(likes, userId, likeElem) {
     }
   });
 }
+
+//открытие и сохранение нового аватара
+
+buttonAvatarEdit.addEventListener('click', function() {
+  openPopup(popupNewAvatar);
+})
+
+function handlerAvatarFormSubmit(e) {
+  e.preventDefault();
+  newAvatar(popupAvatarUrl.value)
+  popupFormAvatar.reset();
+}
+
+popupFormAvatar.addEventListener('submit', handlerAvatarFormSubmit)
 
 export {renderLoading, inactiveBtnSubmit, setActiveLike}
