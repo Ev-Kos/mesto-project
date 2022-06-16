@@ -136,7 +136,47 @@ function deleteCard(id) {
   })
 }
 
-export {getUserInfo, getCards, setUserInfo, addNewCard, deleteCard}
+//Постановка и снятие лайка
+
+function setLike(cardId, likeCount) {
+  fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+  .then((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+  .then((data) => {
+    likeCount.textContent = data.likes.length
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+
+function deleteLike(cardId, likeCount) {
+  fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then((res) => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  })
+  .then((data) => {
+    likeCount.textContent = data.likes.length
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+
+export {getUserInfo, getCards, setUserInfo, addNewCard, deleteCard, setLike, deleteLike}
 
 
 

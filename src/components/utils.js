@@ -85,4 +85,14 @@ buttonConsent.addEventListener('click', function() {
   chosenCard.remove();
 })
 
-export {renderLoading, inactiveBtnSubmit}
+//функция постановки лайка
+function setActiveLike(likes, userId, likeElem) {
+  likes.forEach(function(elem) {
+    if (elem._id === userId) {
+      likeElem.classList.add('element__like-button_active')
+      return;
+    }
+  });
+}
+
+export {renderLoading, inactiveBtnSubmit, setActiveLike}

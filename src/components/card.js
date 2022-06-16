@@ -1,6 +1,8 @@
 import {initialCards} from './initialCards';
 import {cardsTemplate, elements,  popupZoom, popupZoomImage, popupConsent} from './constants';
 import {openPopup} from './modal';
+import {setActiveLike} from './utils';
+import {setLike, deleteLike} from './api'
 
 let cardForDel = '';
 
@@ -29,20 +31,27 @@ function createCard(cards = {}, userInfo) {
 
   //лайки карточек
   const buttonLike = card.querySelector('.element__like-button');
+  const likeCount = card.querySelector('.element__likes-count');
+
+  likeCount.textContent = cards.likes.length;
+  setActiveLike(cards.likes, userInfo._id, buttonLike);
 
   buttonLike.addEventListener('click', function() {
     buttonLike.classList.toggle('element__like-button_active');
-  });
 
-  const likeCount = card.querySelector('.element__likes-count');
-  likeCount.textContent = cards.likes.length;
+    if (buttonLike.classList.contains('element__like-button_active')) {
+      setLike(cards._id, likeCount)
+    } else {
+      deleteLike(cards._id, likeCount)
+    }
+  });
 
   //открытие картинки
   cardImage.addEventListener('click', function() {
     openPopup(popupZoom);
-    popupZoomImage.src = link;
-    popupZoomImage.alt = alt;
-    popupZoom.querySelector('.popup__caption').textContent = name;
+    popupZoomImage.src = cards.link;
+    popupZoomImage.alt = cards.name;
+    popupZoom.querySelector('.popup__caption').textContent = cards.name;
   });
 
   return card;
