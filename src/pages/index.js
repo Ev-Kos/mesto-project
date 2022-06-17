@@ -1,43 +1,54 @@
 import './index.css';
-import '../components/modal';
-import '../components/utils';
-import '../components/card';
+import {getCards, getUserInfo, deleteCard} from '../components/api';
+import {showCard, createCard, cardForDel} from '../components/card';
 import {enableValidation} from '../components/validate';
-import {createCard, showCard} from '../components/card';
+import {openPopup,
+        handleProfileFormSubmit,
+        handlePlaceFormSubmit,
+        handlerAvatarFormSubmit,
+        closePopup} from '../components/modal';
 import {userName,
         userProfession,
-        userAvatar} from '../components/constants';
-import {getUserInfo, getCards} from '../components/api';
+        userAvatar,
+        editButton,
+        popupProfile,
+        popupUserName,
+        popupUserProfession,
+        addButton,
+        popupPlace,
+        formElementProfile,
+        popupFormPlace,
+        buttonAvatarEdit,
+        popupNewAvatar,
+        popupFormAvatar,
+        buttonConsent,
+        popupConsent} from '../components/constants';
 
-let userInfo = {};
 
-getUserInfo()
-  .then((info) => {
-    userName.textContent = info.name;
-    userProfession.textContent = info.about;
-    userAvatar.src = info.avatar;
-    return userInfo = info
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+let userInfo = [];
 
-  getCards()
-  .then((cards) => {
-    if (cards.length > 0) {
-      cards.forEach(card => {
-        showCard(createCard(card, userInfo));
-      })
-    } else {
-      let textErr = document.createElement('p');
-      textErr.textContent = 'Извините, фотографии отсутствуют';
-      document.querySelector('.elements').before(text);
+Promise.all([getUserInfo(), getCards()])
+.then(data => {
+  userName.textContent = data[0].name;
+  userProfession.textContent = data[0].about;
+  userAvatar.src = data[0].avatar;
+
+  if (data[1].length > 0) {
+    data[1].forEach(card => {
+      showCard(createCard(card, data[0]));
+    })
+  } else {
+    const text = document.createElement('p');
+    text.textContent = 'Извините, фотографии отсутствуют';
+    document.querySelector('.elements').before(text);
     }
+    return userInfo = data[0]
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err);
   })
 
+//валидация
 
 enableValidation({
   formSelector: '.popup__form',
@@ -47,3 +58,38 @@ enableValidation({
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
 });
+
+editButton.addEventListener('click', function () {
+  popupUserName.value = userName.textContent;
+  popupUserProfession.value = userProfession.textContent;
+  openPopup(popupProfile);
+});
+
+addButton.addEventListener('click', () => openPopup(popupPlace));
+
+formElementProfile.addEventListener('submit', handleProfileFormSubmit);
+
+popupFormPlace.addEventListener('submit', handlePlaceFormSubmit);
+
+const app = document.querySelector('.profile__avatar-overlay');
+
+app.addEventListener('click', function() {
+  openPopup(popupNewAvatar);
+})
+
+popupFormAvatar.addEventListener('submit', handlerAvatarFormSubmit)
+
+buttonConsent.addEventListener('click', function() {
+  deleteCard(cardForDel.id)
+  .then(() => {
+    cardForDel.remove();
+    closePopup(popupConsent);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+})
+
+
+
+

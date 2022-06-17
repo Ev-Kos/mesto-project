@@ -6,12 +6,14 @@
   bottom: 0;
   right: 0;
   opacity: 0;
-  transition: opacity .3s linear;
+  transition: opacity .5s linear;
   justify-content: center;
   align-items: center;
+  border-radius: 48%;
 }
 
 .profile__avatar-overlay:hover {
   background-color: #000;
   opacity: 0.8;
+  cursor: pointer;
 }

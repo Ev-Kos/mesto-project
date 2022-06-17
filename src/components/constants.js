@@ -1,6 +1,8 @@
 const editButton = document.querySelector('.profile__edit-button');
 const popupProfile = document.querySelector('#popupProfile');
+const buttonProfileSubmit = popupProfile.querySelector('.popup__submit-button');
 const popupPlace = document.querySelector('#popupPlace');
+const buttonPlaceSubmit = popupPlace.querySelector('.popup__submit-button');
 const popupZoom = document.querySelector('#popupZoom');
 const popupConsent = document.querySelector('#popupConsent');
 const buttonConsent = popupConsent.querySelector('.popup__submit-button');
@@ -49,5 +51,7 @@ export {
   buttonAvatarSubmit,
   buttonAvatarEdit,
   popupAvatarUrl,
-  popupFormAvatar
+  popupFormAvatar,
+  buttonProfileSubmit,
+  buttonPlaceSubmit
 }

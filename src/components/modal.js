@@ -1,4 +1,25 @@
-import {popups} from './constants';
+import {popups,
+        userName,
+        userProfession,
+        buttonProfileSubmit,
+        popupUserName,
+        popupUserProfession,
+        popupProfile,
+        popupPlaceName,
+        popupPlaceUrl,
+        buttonPlaceSubmit,
+        popupFormPlace,
+        buttonAvatarSubmit,
+        popupAvatarUrl,
+        userAvatar,
+        popupNewAvatar,
+        popupFormAvatar,
+        popupZoomImage,
+        popupZoom,
+        popupPlace} from './constants';
+import {renderLoading, inactiveBtnSubmit} from './utils';
+import {setUserInfo, addNewCard, newAvatar} from './api'
+import {showCard, createCard} from './card'
 
 //функция открытия попапов
 function openPopup(popup) {
@@ -34,4 +55,87 @@ popups.forEach(function(popup) {
    })
  });
 
-export {openPopup, closePopup}
+ //информация о пользователе
+ function updateUsefInfo(name, about) {
+  userName.textContent = name;
+  userProfession.textContent = about;
+};
+
+ //функция сохранения и закрытия попапа профайла
+function handleProfileFormSubmit (evt) {
+  evt.preventDefault();
+
+  renderLoading(true, buttonProfileSubmit);
+
+  setUserInfo(popupUserName.value, popupUserProfession.value)
+    .then((res) => {
+      updateUsefInfo(popupUserName.value, popupUserProfession.value);
+      closePopup(popupProfile);
+      inactiveBtnSubmit(buttonProfileSubmit);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, buttonProfileSubmit);
+    })
+}
+
+//функция сохранения и закрытия "новое место"
+function handlePlaceFormSubmit(user) {
+  const card = {
+    name: popupPlaceName.value,
+    link: popupPlaceUrl.value
+  }
+  renderLoading(true, buttonPlaceSubmit);
+  addNewCard(card, user)
+  .then(result => {
+    showCard(createCard(result, user));
+    inactiveBtnSubmit(buttonPlaceSubmit);
+    closePopup(popupPlace);
+    popupFormPlace.reset();
+  })
+  .catch(err => {
+    console.log(err);
+  })
+  .finally(() => {
+    renderLoading(false, buttonPlaceSubmit, 'Создать');
+  })
+}
+
+//функция сохранения и закрытия аватара
+function handlerAvatarFormSubmit(e) {
+  e.preventDefault();
+  renderLoading(true, buttonAvatarSubmit);
+  newAvatar(popupAvatarUrl.value)
+    .then(result => {
+      userAvatar.src = result.avatar;
+      closePopup(popupNewAvatar);
+      inactiveBtnSubmit(buttonAvatarSubmit);
+      popupFormAvatar.reset();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, buttonAvatarSubmit);
+    })
+}
+
+function zoomImage(name, link) {
+  popupZoomImage.src = link;
+  popupZoomImage.alt = name;
+  popupZoom.querySelector('.popup__caption').textContent = name;
+  openPopup(popupZoom);
+};
+
+
+export {
+  openPopup,
+  closePopup,
+  updateUsefInfo,
+  handleProfileFormSubmit,
+  handlePlaceFormSubmit,
+  handlerAvatarFormSubmit,
+  zoomImage
+  }
