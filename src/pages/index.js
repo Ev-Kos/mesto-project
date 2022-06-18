@@ -1,12 +1,13 @@
 import './index.css';
 import {getCards, getUserInfo, deleteCard} from '../components/api';
-import {showCard, createCard, cardForDel} from '../components/card';
+import {createCard, cardForDel, removeCard} from '../components/card';
 import {enableValidation} from '../components/validate';
 import {openPopup,
         handleProfileFormSubmit,
         handlePlaceFormSubmit,
         handlerAvatarFormSubmit,
-        closePopup} from '../components/modal';
+        closePopup,
+        zoomImage} from '../components/modal';
 import {userName,
         userProfession,
         userAvatar,
@@ -18,12 +19,11 @@ import {userName,
         popupPlace,
         formElementProfile,
         popupFormPlace,
-        buttonAvatarEdit,
+        elements,
         popupNewAvatar,
         popupFormAvatar,
         buttonConsent,
         popupConsent} from '../components/constants';
-
 
 let userInfo = [];
 
@@ -35,7 +35,7 @@ Promise.all([getUserInfo(), getCards()])
 
   if (data[1].length > 0) {
     data[1].forEach(card => {
-      showCard(createCard(card, data[0]));
+      showCard(createCard(card, data[0], zoomImage, DelBtn));
     })
   } else {
     const text = document.createElement('p');
@@ -69,7 +69,10 @@ addButton.addEventListener('click', () => openPopup(popupPlace));
 
 formElementProfile.addEventListener('submit', handleProfileFormSubmit);
 
-popupFormPlace.addEventListener('submit', handlePlaceFormSubmit);
+popupFormPlace.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  handlePlaceFormSubmit(userInfo);
+})
 
 const app = document.querySelector('.profile__avatar-overlay');
 
@@ -79,16 +82,34 @@ app.addEventListener('click', function() {
 
 popupFormAvatar.addEventListener('submit', handlerAvatarFormSubmit)
 
+function DelBtn () {
+    openPopup(popupConsent);
+  }
+
+
 buttonConsent.addEventListener('click', function() {
   deleteCard(cardForDel.id)
   .then(() => {
-    cardForDel.remove();
+    removeCard(cardForDel);
     closePopup(popupConsent);
   })
   .catch(err => {
     console.log(err);
   })
 })
+
+function showCard(card) {
+  elements.prepend(card);
+};
+
+
+function updateUsefInfo(name, about) {
+  userName.textContent = name;
+  userProfession.textContent = about;
+};
+
+
+export {showCard, updateUsefInfo, DelBtn}
 
 
 

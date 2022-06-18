@@ -4,9 +4,9 @@ const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-11',
   headers: {
     authorization: 'cb3d9f20-e882-44f9-862b-5c98290433e7',
-    'Content-Type': 'application/json'
-  }
-}
+    'Content-Type': 'application/json',
+  },
+};
 
 //Загрузка информации о пользователе с сервера
 

@@ -1,10 +1,9 @@
-import {cardsTemplate, elements, popupConsent} from './constants';
-import {openPopup, zoomImage} from './modal';
-import {setLike, deleteLike} from './api'
+import {cardsTemplate} from './constants';
+import {setLike, deleteLike} from './api';
 
 let cardForDel = '';
 
-function createCard(card, userInfo) {
+function createCard(card, userInfo, zoomImage, DelBtn) {
   const cardElem = cardsTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElem.querySelector('.element__image');
   cardImage.src = card.link;
@@ -18,7 +17,7 @@ function createCard(card, userInfo) {
 
   if (card.owner._id === userInfo._id) {
     buttonDelete.addEventListener('click', function() {
-      openPopup(popupConsent);
+      DelBtn();
       cardForDel = cardElem;
     });
   } else {
@@ -60,17 +59,18 @@ function createCard(card, userInfo) {
       }
     })
 
-  cardImage.addEventListener('click', function() {
+  cardImage.addEventListener('click', function () {
     zoomImage(card.name, card.link);
-  });
-
+  })
   return cardElem;
 }
 
-function showCard(card) {
-  elements.prepend(card);
-};
+function removeCard(element) {
+  element.remove();
+}
 
-export {createCard, showCard, cardForDel}
+
+
+export {createCard, cardForDel, removeCard}
 
 

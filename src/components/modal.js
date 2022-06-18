@@ -1,6 +1,4 @@
 import {popups,
-        userName,
-        userProfession,
         buttonProfileSubmit,
         popupUserName,
         popupUserProfession,
@@ -16,10 +14,12 @@ import {popups,
         popupFormAvatar,
         popupZoomImage,
         popupZoom,
-        popupPlace} from './constants';
+        popupPlace,
+        popupZoomCaption} from './constants';
 import {renderLoading, inactiveBtnSubmit} from './utils';
-import {setUserInfo, addNewCard, newAvatar} from './api'
-import {showCard, createCard} from './card'
+import {setUserInfo, addNewCard, newAvatar} from './api';
+import {createCard} from './card';
+import {showCard, updateUsefInfo, DelBtn} from '../pages/index';
 
 //функция открытия попапов
 function openPopup(popup) {
@@ -55,12 +55,6 @@ popups.forEach(function(popup) {
    })
  });
 
- //информация о пользователе
- function updateUsefInfo(name, about) {
-  userName.textContent = name;
-  userProfession.textContent = about;
-};
-
  //функция сохранения и закрытия попапа профайла
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
@@ -88,9 +82,10 @@ function handlePlaceFormSubmit(user) {
     link: popupPlaceUrl.value
   }
   renderLoading(true, buttonPlaceSubmit);
+
   addNewCard(card, user)
   .then(result => {
-    showCard(createCard(result, user));
+    showCard(createCard(result, user, zoomImage, DelBtn));
     inactiveBtnSubmit(buttonPlaceSubmit);
     closePopup(popupPlace);
     popupFormPlace.reset();
@@ -125,7 +120,7 @@ function handlerAvatarFormSubmit(e) {
 function zoomImage(name, link) {
   popupZoomImage.src = link;
   popupZoomImage.alt = name;
-  popupZoom.querySelector('.popup__caption').textContent = name;
+  popupZoomCaption.textContent = name;
   openPopup(popupZoom);
 };
 
@@ -133,7 +128,6 @@ function zoomImage(name, link) {
 export {
   openPopup,
   closePopup,
-  updateUsefInfo,
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
   handlerAvatarFormSubmit,

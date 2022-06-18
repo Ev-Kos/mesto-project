@@ -25,6 +25,7 @@ const buttonAvatarSubmit = popupNewAvatar.querySelector('.popup__submit-button')
 const buttonAvatarEdit = document.querySelector('.profile__avatar-edit-button');
 const popupFormAvatar = document.querySelector('#popupFormNewAvatar');
 const popupAvatarUrl = document.querySelector('#popupAvatarUrl');
+const popupZoomCaption = document.querySelector('.popup__caption');
 
 export {
   editButton,
@@ -53,5 +54,6 @@ export {
   popupAvatarUrl,
   popupFormAvatar,
   buttonProfileSubmit,
-  buttonPlaceSubmit
+  buttonPlaceSubmit,
+  popupZoomCaption
 }
