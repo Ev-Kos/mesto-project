@@ -1,5 +1,5 @@
 import './index.css';
-import {getCards, getUserInfo, deleteCard} from '../components/api';
+import {getCards, getUserInfo, deleteCard, deleteLike, setLike} from '../components/api';
 import {createCard, cardForDel, removeCard} from '../components/card';
 import {enableValidation} from '../components/validate';
 import {openPopup,
@@ -23,7 +23,8 @@ import {userName,
         popupNewAvatar,
         popupFormAvatar,
         buttonConsent,
-        popupConsent} from '../components/constants';
+        popupConsent,
+        buttonAvatarEdit} from '../components/constants';
 
 let userInfo = [];
 
@@ -35,7 +36,7 @@ Promise.all([getUserInfo(), getCards()])
 
   if (data[1].length > 0) {
     data[1].forEach(card => {
-      showCard(createCard(card, data[0], zoomImage, DelBtn));
+      showCard(createCard(card, data[0], zoomImage, openPopupConsent, setLikeLogic, deleteLikeLogic));
     })
   } else {
     const text = document.createElement('p');
@@ -74,17 +75,16 @@ popupFormPlace.addEventListener('submit', (evt) => {
   handlePlaceFormSubmit(userInfo);
 })
 
-const app = document.querySelector('.profile__avatar-overlay');
-
-app.addEventListener('click', function() {
+buttonAvatarEdit.addEventListener('click', function() {
   openPopup(popupNewAvatar);
 })
 
 popupFormAvatar.addEventListener('submit', handlerAvatarFormSubmit)
 
-function DelBtn () {
+
+function openPopupConsent () {
     openPopup(popupConsent);
-  }
+}
 
 
 buttonConsent.addEventListener('click', function() {
@@ -109,8 +109,30 @@ function updateUsefInfo(name, about) {
 };
 
 
-export {showCard, updateUsefInfo, DelBtn}
+function deleteLikeLogic(id, count, button) {
+    deleteLike(id)
+    .then((data) => {
+      count.textContent = data.likes.length;
+      button.classList.remove('element__like-button_active')
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
+  function setLikeLogic(id, count, button) {
+    setLike(id)
+    .then((data) => {
+      count.textContent = data.likes.length;
+      button.classList.add('element__like-button_active');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+
+export {showCard, updateUsefInfo, openPopupConsent, setLikeLogic, deleteLikeLogic}
 
 
 

@@ -1,9 +1,8 @@
 import {cardsTemplate} from './constants';
-import {setLike, deleteLike} from './api';
 
 let cardForDel = '';
 
-function createCard(card, userInfo, zoomImage, DelBtn) {
+function createCard(card, userInfo, zoomImage, openPopupConsent, setLikeLogic, deleteLikeLogic) {
   const cardElem = cardsTemplate.querySelector('.element').cloneNode(true);
   const cardImage = cardElem.querySelector('.element__image');
   cardImage.src = card.link;
@@ -16,10 +15,10 @@ function createCard(card, userInfo, zoomImage, DelBtn) {
   const buttonDelete = cardElem.querySelector('.element__remove-button');
 
   if (card.owner._id === userInfo._id) {
-    buttonDelete.addEventListener('click', function() {
-      DelBtn();
+    buttonDelete.addEventListener('click', function () {
+      openPopupConsent();
       cardForDel = cardElem;
-    });
+    })
   } else {
     buttonDelete.remove();
   }
@@ -37,27 +36,13 @@ function createCard(card, userInfo, zoomImage, DelBtn) {
 
   setActiveLike(card.likes, userInfo._id, buttonLike);
 
-    buttonLike.addEventListener('click', function() {
-      if (buttonLike.classList.contains('element__like-button_active')) {
-        deleteLike(card._id)
-          .then((data) => {
-            likeCount.textContent = data.likes.length;
-            buttonLike.classList.remove('element__like-button_active');
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      } else {
-        setLike(card._id)
-          .then((data) => {
-            likeCount.textContent = data.likes.length;
-            buttonLike.classList.add('element__like-button_active');
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      }
-    })
+  buttonLike.addEventListener('click', function() {
+    if (buttonLike.classList.contains('element__like-button_active')) {
+      deleteLikeLogic(card._id, likeCount, buttonLike);
+    } else {
+      setLikeLogic(card._id, likeCount, buttonLike);
+    }
+  })
 
   cardImage.addEventListener('click', function () {
     zoomImage(card.name, card.link);

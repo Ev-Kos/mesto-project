@@ -19,7 +19,7 @@ import {popups,
 import {renderLoading, inactiveBtnSubmit} from './utils';
 import {setUserInfo, addNewCard, newAvatar} from './api';
 import {createCard} from './card';
-import {showCard, updateUsefInfo, DelBtn} from '../pages/index';
+import {showCard, updateUsefInfo, openPopupConsent, setLikeLogic, deleteLikeLogic} from '../pages/index';
 
 //функция открытия попапов
 function openPopup(popup) {
@@ -85,7 +85,7 @@ function handlePlaceFormSubmit(user) {
 
   addNewCard(card, user)
   .then(result => {
-    showCard(createCard(result, user, zoomImage, DelBtn));
+    showCard(createCard(result, user, zoomImage, openPopupConsent, setLikeLogic, deleteLikeLogic));
     inactiveBtnSubmit(buttonPlaceSubmit);
     closePopup(popupPlace);
     popupFormPlace.reset();
