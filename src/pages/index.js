@@ -1,13 +1,9 @@
 import './index.css';
-import {getCards, getUserInfo, deleteCard, deleteLike, setLike} from '../components/api';
-import {createCard, cardForDel, removeCard} from '../components/card';
+import {getCards, getUserInfo, deleteCard, deleteLike, setLike, addNewCard, setUserInfo, newAvatar} from '../components/api';
+import {createCard, cardForDel, removeCard, changeLikeCount} from '../components/card';
 import {enableValidation} from '../components/validate';
-import {openPopup,
-        handleProfileFormSubmit,
-        handlePlaceFormSubmit,
-        handlerAvatarFormSubmit,
-        closePopup,
-        zoomImage} from '../components/modal';
+import {inactiveBtnSubmit, renderLoading} from '../components/utils';
+import {openPopup, closePopup} from '../components/modal';
 import {userName,
         userProfession,
         userAvatar,
@@ -24,7 +20,14 @@ import {userName,
         popupFormAvatar,
         buttonConsent,
         popupConsent,
-        buttonAvatarEdit} from '../components/constants';
+        buttonAvatarEdit,
+        buttonPlaceSubmit,
+        buttonProfileSubmit,
+        popupZoomImage,
+        popupZoomCaption,
+        buttonAvatarSubmit,
+        popupAvatarUrl,
+        popups} from '../components/constants';
 
 let userInfo = [];
 
@@ -49,6 +52,19 @@ Promise.all([getUserInfo(), getCards()])
     console.log(err);
   })
 
+//закрытие по клику на оверлэй и крестик
+
+popups.forEach(function(popup) {
+  popup.addEventListener('mousedown', function(evt) {
+    if (evt.target.classList.contains('popup')) {
+      closePopup(popup);
+    }
+    if (evt.target.classList.contains('popup__close-button')) {
+     closePopup(popup);
+   }
+  })
+});
+
 //валидация
 
 enableValidation({
@@ -60,20 +76,83 @@ enableValidation({
   errorClass: 'popup__input-error_active'
 });
 
+
+//открытие и сохранение попапа профайла
 editButton.addEventListener('click', function () {
   popupUserName.value = userName.textContent;
   popupUserProfession.value = userProfession.textContent;
   openPopup(popupProfile);
 });
 
-addButton.addEventListener('click', () => openPopup(popupPlace));
+function handleProfileFormSubmit (evt) {
+  evt.preventDefault();
+
+  renderLoading(true, buttonProfileSubmit);
+
+  setUserInfo(popupUserName.value, popupUserProfession.value)
+    .then((res) => {
+      updateUsefInfo(popupUserName.value, popupUserProfession.value);
+      closePopup(popupProfile);
+      inactiveBtnSubmit(buttonProfileSubmit);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, buttonProfileSubmit);
+    })
+}
 
 formElementProfile.addEventListener('submit', handleProfileFormSubmit);
+
+//открытие и сохранение попапа Новое место
+addButton.addEventListener('click', () => openPopup(popupPlace));
+
+function handlePlaceFormSubmit(user) {
+  const card = {
+    name: popupPlaceName.value,
+    link: popupPlaceUrl.value
+  }
+  renderLoading(true, buttonPlaceSubmit);
+
+  addNewCard(card, user)
+  .then(result => {
+    showCard(createCard(result, user, zoomImage, openPopupConsent, setLikeLogic, deleteLikeLogic));
+    inactiveBtnSubmit(buttonPlaceSubmit);
+    closePopup(popupPlace);
+    popupFormPlace.reset();
+  })
+  .catch(err => {
+    console.log(err);
+  })
+  .finally(() => {
+    renderLoading(false, buttonPlaceSubmit, 'Создать');
+  })
+}
 
 popupFormPlace.addEventListener('submit', (evt) => {
   evt.preventDefault();
   handlePlaceFormSubmit(userInfo);
 })
+
+//открытие и сохранение попапа аватара
+function handlerAvatarFormSubmit(e) {
+  e.preventDefault();
+  renderLoading(true, buttonAvatarSubmit);
+  newAvatar(popupAvatarUrl.value)
+    .then(result => {
+      userAvatar.src = result.avatar;
+      closePopup(popupNewAvatar);
+      inactiveBtnSubmit(buttonAvatarSubmit);
+      popupFormAvatar.reset();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, buttonAvatarSubmit);
+    })
+}
 
 buttonAvatarEdit.addEventListener('click', function() {
   openPopup(popupNewAvatar);
@@ -81,11 +160,10 @@ buttonAvatarEdit.addEventListener('click', function() {
 
 popupFormAvatar.addEventListener('submit', handlerAvatarFormSubmit)
 
-
+//открытие и сохранение попапа Вы уверены
 function openPopupConsent () {
     openPopup(popupConsent);
 }
-
 
 buttonConsent.addEventListener('click', function() {
   deleteCard(cardForDel.id)
@@ -98,22 +176,22 @@ buttonConsent.addEventListener('click', function() {
   })
 })
 
+//функция вставления карточки
 function showCard(card) {
   elements.prepend(card);
 };
 
-
+//функция отображения информации о пользователе при редактировании
 function updateUsefInfo(name, about) {
   userName.textContent = name;
   userProfession.textContent = about;
 };
 
-
+//функции работы с запросами лайков
 function deleteLikeLogic(id, count, button) {
     deleteLike(id)
     .then((data) => {
-      count.textContent = data.likes.length;
-      button.classList.remove('element__like-button_active')
+      changeLikeCount(count, data.likes.length, button);
     })
     .catch(err => {
       console.log(err);
@@ -123,16 +201,24 @@ function deleteLikeLogic(id, count, button) {
   function setLikeLogic(id, count, button) {
     setLike(id)
     .then((data) => {
-      count.textContent = data.likes.length;
-      button.classList.add('element__like-button_active');
+      changeLikeCount(count, data.likes.length, button);
     })
     .catch(err => {
       console.log(err);
     })
   }
 
+//открытие попапа большой картинки
+  function zoomImage(name, link) {
+    popupZoomImage.src = link;
+    popupZoomImage.alt = name;
+    popupZoomCaption.textContent = name;
+    openPopup(popupZoom);
+  };
 
-export {showCard, updateUsefInfo, openPopupConsent, setLikeLogic, deleteLikeLogic}
+
+
+export {showCard, zoomImage, updateUsefInfo, openPopupConsent, setLikeLogic, deleteLikeLogic}
 
 
 

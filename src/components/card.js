@@ -50,12 +50,17 @@ function createCard(card, userInfo, zoomImage, openPopupConsent, setLikeLogic, d
   return cardElem;
 }
 
+//удаление карточки
 function removeCard(element) {
   element.remove();
 }
 
+//изменение вида лайков
+function changeLikeCount(likeCount, newCount, button){
+  likeCount.textContent = newCount;
+  button.classList.toggle('element__like-button_active');
+}
 
-
-export {createCard, cardForDel, removeCard}
+export {createCard, cardForDel, removeCard, changeLikeCount}
 
 
